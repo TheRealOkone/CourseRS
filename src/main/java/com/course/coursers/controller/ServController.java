@@ -28,11 +28,17 @@ public class ServController {
         Block a = new Block(2,1, Arrays.asList(),dataSource);
         a.insertSelf();
         int result = jdbcTemplate.queryForObject(
-                "SELECT COUNT(*) FROM test", Integer.class);
+                "SELECT COUNT(*) FROM blocks", Integer.class);
         System.out.println(result);
+
         return "flop";
     }
 
+    @GetMapping("/moder")
+    public String rebase() {
+        tableComponent.prepareBase();
+        return "ok";
+    }
     @GetMapping("/json")
     public String returnJson(){
         String res = tableComponent.getTableAsJson();
