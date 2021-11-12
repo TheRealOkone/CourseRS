@@ -22,11 +22,14 @@ public class ServController {
     TableComponent tableComponent;
 
 
-    @GetMapping("/flop")
-    public String fst(){
+    @GetMapping("/flop")    public String fst(){
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        Block a = new Block(2,1, Arrays.asList(),dataSource);
+        Block a = new Block(1,1, Arrays.asList(2),dataSource);
         a.insertSelf();
+        Block b = new Block(2,1, Arrays.asList(3),dataSource);
+        b.insertSelf();
+        Block c = new Block(3,1, Arrays.asList(),dataSource);
+        c.insertSelf();
         int result = jdbcTemplate.queryForObject(
                 "SELECT COUNT(*) FROM blocks", Integer.class);
         System.out.println(result);
@@ -39,6 +42,13 @@ public class ServController {
         tableComponent.prepareBase();
         return "ok";
     }
+
+    @GetMapping("/trunc")
+    public String debase() {
+        tableComponent.deleteBase();
+        return "ok";
+    }
+
     @GetMapping("/json")
     public String returnJson(){
         String res = tableComponent.getTableAsJson();

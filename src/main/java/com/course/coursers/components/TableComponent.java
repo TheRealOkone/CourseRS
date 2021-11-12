@@ -20,7 +20,7 @@ public class TableComponent {
     }
 
     public String getTableAsJson(){
-        String str = jdbcTemplate.queryForObject("SELECT array_to_json(array_agg(row_to_json(blocks))) FROM test;", String.class);
+        String str = jdbcTemplate.queryForObject("SELECT array_to_json(array_agg(row_to_json(blocks))) FROM blocks;", String.class);
         return str;
     }
 
@@ -57,7 +57,7 @@ public class TableComponent {
     }
 
     public void deleteBase(){
-        jdbcTemplate.execute("DROP DATABASE pg_course;");
+        jdbcTemplate.execute("TRUNCATE TABLE public.blocks;");
     }
 
 
