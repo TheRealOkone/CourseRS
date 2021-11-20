@@ -24,40 +24,49 @@ public class TableComponent {
         return str;
     }
 
-    public String getBlockById(int id){
-        String str = jdbcTemplate.queryForObject("SELECT array_to_json(array_agg(row_to_json(blocks))) FROM blocks  WHERE id = " + id + ";", String.class);
-        return str;
-    }
 
-    public String deleteBlockById(int id){
-        String str = jdbcTemplate.queryForObject("DELETE FROM blocks  WHERE id = " + id + ";", String.class);
-        return str;
-    }
-
-    public String updateBlockById(int id, int type, List<Integer> childs){
-        String str = jdbcTemplate.queryForObject("update blocks  set type = " + type + ", set childs = " + childs.toString().replace("[","{").replace("]","}") + " where id = " + id + ";", String.class);
-        return str;
-    }
 
     public void prepareBase(){
-        String sql =
+        String sqltab1 =
                 "CREATE TABLE IF NOT EXISTS public.blocks\n" +
-                "(\n" +
-                "    id integer,\n" +
-                "    type integer,\n" +
-                "    childs integer[]\n" +
-                ")\n" +
-                "\n" +
-                "TABLESPACE pg_default;\n" +
-                "\n" +
-                "ALTER TABLE public.blocks\n" +
-                "    OWNER to postgres;";
+                        "(\n" +
+                        "    id integer,\n" +
+                        "    type integer,\n" +
+                        "    childs integer[],\n" +
+                        "    diagram integer,\n" +
+                        "    CONSTRAINT blocks_diagram_fkey FOREIGN KEY (diagram)\n" +
+                        "        REFERENCES public.diagrams (id) MATCH SIMPLE\n" +
+                        "        ON UPDATE NO ACTION\n" +
+                        "        ON DELETE NO ACTION\n" +
+                        ")\n" +
+                        "\n" +
+                        "TABLESPACE pg_default;\n" +
+                        "\n" +
+                        "ALTER TABLE public.blocks\n" +
+                        "    OWNER to postgres;";
 
-        jdbcTemplate.execute(sql);
+
+        String sqltab2 =
+                "CREATE TABLE IF NOT EXISTS public.diagrams\n" +
+                        "(\n" +
+                        "    id integer NOT NULL,\n" +
+                        "    name text COLLATE pg_catalog.\"default\" NOT NULL,\n" +
+                        "    description text COLLATE pg_catalog.\"default\",\n" +
+                        "    CONSTRAINT diagrams_pkey PRIMARY KEY (id)\n" +
+                        ")\n" +
+                        "\n" +
+                        "TABLESPACE pg_default;\n" +
+                        "\n" +
+                        "ALTER TABLE public.diagrams\n" +
+                        "    OWNER to postgres;";
+
+        jdbcTemplate.execute(sqltab2);
+        jdbcTemplate.execute(sqltab1);
     }
 
     public void deleteBase(){
-        jdbcTemplate.execute("TRUNCATE TABLE public.blocks;");
+        jdbcTemplate.execute("TRUNCATE public.diagrams CASCADE;");
+        jdbcTemplate.execute("TRUNCATE public.blocks CASCADE;");
     }
 
 

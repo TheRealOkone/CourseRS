@@ -2,10 +2,10 @@ package com.course.coursers.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import javax.annotation.PostConstruct;
+
 import javax.sql.DataSource;
 import java.util.List;
 
@@ -18,11 +18,13 @@ public class Block {
     private int id;
     private int type;
     private List<Integer> childs;
+    private int diagram;
 
-    public Block(int id, int type, List<Integer> childs, DataSource dataSource) {
+    public Block(int id, int type, List<Integer> childs, int diagram, DataSource dataSource) {
         this.id = id;
         this.type = type;
         this.childs = childs;
+        this.diagram = diagram;
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
@@ -31,7 +33,7 @@ public class Block {
 
     public boolean insertSelf(){
         jdbcTemplate.execute("insert into blocks " +
-                                    "values ('" + id + "','" + type + "','" + childs.toString().replace("[","{").replace("]","}") + "');");
+                                    "values ('" + id + "','" + type + "','" + childs.toString().replace("[","{").replace("]","}") + "','" + diagram + "');");
         return true;
     }
 
@@ -58,5 +60,13 @@ public class Block {
 
     public void setChilds(List<Integer> childs) {
         this.childs = childs;
+    }
+
+    public int getDiagram() {
+        return diagram;
+    }
+
+    public void setDiagram(int diagram) {
+        this.diagram = diagram;
     }
 }
