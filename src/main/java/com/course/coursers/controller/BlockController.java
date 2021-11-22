@@ -6,6 +6,8 @@ import com.course.coursers.components.TableComponent;
 import com.course.coursers.models.Block;
 import com.course.coursers.models.Diagram;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,24 +29,24 @@ public class BlockController {
 
 
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable int id){
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable int id){
         String res = blockComponent.deleteBlockById(id);
         System.out.println(res);
-        return res;
+        return new ResponseEntity(res, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
-    public String update(@PathVariable int id, @RequestBody Block body){
-        String res = blockComponent.updateBlockById(id, body.getType(), body.getChilds(), body.getDiagram());
+    public ResponseEntity<String> update(@PathVariable int id, @RequestBody Block body){
+        String res = blockComponent.updateBlockById(id, body.getType(), body.getChilds(), body.getDiagram(), body.getDescription());
         System.out.println(res);
-        return res;
+        return new ResponseEntity(res, HttpStatus.OK);
     }
 
     @PostMapping("/insert")
-    public String insert(@RequestBody Block body){
+    public HttpStatus insert(@RequestBody Block body){
         body.insertSelf();
-        return "200";
+        return HttpStatus.OK;
     }
 
 

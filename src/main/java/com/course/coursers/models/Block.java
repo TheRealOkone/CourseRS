@@ -19,12 +19,15 @@ public class Block {
     private int type;
     private List<Integer> childs;
     private int diagram;
+    private String description;
 
-    public Block(int id, int type, List<Integer> childs, int diagram, DataSource dataSource) {
+
+    public Block(int id, int type, List<Integer> childs, int diagram, String description, DataSource dataSource) {
         this.id = id;
         this.type = type;
         this.childs = childs;
         this.diagram = diagram;
+        this.description = description;
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
@@ -33,10 +36,18 @@ public class Block {
 
     public boolean insertSelf(){
         jdbcTemplate.execute("insert into blocks " +
-                                    "values ('" + id + "','" + type + "','" + childs.toString().replace("[","{").replace("]","}") + "','" + diagram + "');");
+                                    "values ('" + id + "','" + type + "','" + childs.toString().replace("[","{").replace("]","}") + "','" + diagram + "','" + description + "');");
         return true;
     }
 
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public int getId() {
         return id;

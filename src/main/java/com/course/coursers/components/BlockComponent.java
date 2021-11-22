@@ -34,8 +34,8 @@ public class BlockComponent {
 
 
 
-    public String updateBlockById(int id, int type, List<Integer> childs, int diagram){
-        String str = jdbcTemplate.queryForObject("update blocks  set type = " + type + ", set childs = " + childs.toString().replace("[","{").replace("]","}") + ", set diagram = " + diagram + " where id = " + id + ";", String.class);
+    public String updateBlockById(int id, int type, List<Integer> childs, int diagram, String description){
+        String str = jdbcTemplate.queryForObject("update blocks  set type = " + type + ", set childs = " + childs.toString().replace("[","{").replace("]","}") + ", set diagram = " + diagram + ", set description = " + description + " where id = " + id + ";", String.class);
         return str;
     }
 

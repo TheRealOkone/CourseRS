@@ -24,6 +24,16 @@ public class TableComponent {
         return str;
     }
 
+    public String getTableAsJson(int diagram){
+        String str = jdbcTemplate.queryForObject("SELECT array_to_json(array_agg(row_to_json(blocks))) FROM blocks where diagram =" + diagram + ";", String.class);
+        return str;
+    }
+
+    public String getTableAsJsonDiag(){
+        String str = jdbcTemplate.queryForObject("SELECT array_to_json(array_agg(row_to_json(diagrams))) FROM diagrams;", String.class);
+        return str;
+    }
+
 
 
     public void prepareBase(){

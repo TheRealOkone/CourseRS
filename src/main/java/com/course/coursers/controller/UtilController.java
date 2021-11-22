@@ -7,6 +7,8 @@ import com.course.coursers.components.TableComponent;
 import com.course.coursers.models.Block;
 import com.course.coursers.models.Diagram;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,42 +31,78 @@ public class UtilController {
     DiagramComponent diagramComponent;
 
 
+
+
     @GetMapping("/json")
-    public String returnJson(){
-        String res = tableComponent.getTableAsJson();
+    public ResponseEntity<String> returnJson(@RequestParam int diagram){
+        String res;
+        if(diagram >= 1) {
+            res = tableComponent.getTableAsJson(diagram);
+        }else{
+            res = tableComponent.getTableAsJson();
+        }
         System.out.println(res);
-        return res;
+        return new ResponseEntity(res, HttpStatus.OK);
     }
 
-    @GetMapping("/flop")    public String fst(){
+
+    @GetMapping("/jsondiag")
+    public ResponseEntity<String> returnJsonDiag(){
+        String res = tableComponent.getTableAsJsonDiag();
+        System.out.println(res);
+        return new ResponseEntity(res, HttpStatus.OK);
+    }
+
+    @GetMapping("/flop")
+    public HttpStatus fst(){
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         Diagram diag = new Diagram(1,"flop","flopper",dataSource);
         diag.insertSelf();
-        Block a = new Block(1,1, Arrays.asList(2,3),1,dataSource);
+        Block a = new Block(1,1, Arrays.asList(2,3),1,"flop1", dataSource);
         a.insertSelf();
-        Block b = new Block(2,1, Arrays.asList(4),1,dataSource);
+        Block b = new Block(2,1, Arrays.asList(4),1,"flop2", dataSource);
         b.insertSelf();
-        Block c = new Block(3,1, Arrays.asList(4),1,dataSource);
+        Block c = new Block(3,1, Arrays.asList(4),1,"flop3", dataSource);
         c.insertSelf();
-        Block d = new Block(4,2, Arrays.asList(0),1,dataSource);
+        Block d = new Block(4,2, Arrays.asList(0),1,"flop4", dataSource);
         d.insertSelf();
+        Diagram diag2 = new Diagram(1,"flop","flopper",dataSource);
+        diag2.insertSelf();
+        Block a2 = new Block(1,1, Arrays.asList(2,3),1,"flop1", dataSource);
+        a2.insertSelf();
+        Block b2 = new Block(2,1, Arrays.asList(4),1,"flop2", dataSource);
+        b2.insertSelf();
+        Block c2 = new Block(3,1, Arrays.asList(4),1,"flop3", dataSource);
+        c2.insertSelf();
+        Block d2 = new Block(4,2, Arrays.asList(0),1,"flop4", dataSource);
+        d2.insertSelf();
+        Diagram diag3 = new Diagram(1,"flop","flopper",dataSource);
+        diag.insertSelf();
+        Block a3 = new Block(1,1, Arrays.asList(2,3),1,"flop1", dataSource);
+        a3.insertSelf();
+        Block b3 = new Block(2,1, Arrays.asList(4),1,"flop2", dataSource);
+        b3.insertSelf();
+        Block c3 = new Block(3,1, Arrays.asList(4),1,"flop3", dataSource);
+        c3.insertSelf();
+        Block d3 = new Block(4,2, Arrays.asList(0),1,"flop4", dataSource);
+        d3.insertSelf();
         int result = jdbcTemplate.queryForObject(
                 "SELECT COUNT(*) FROM blocks", Integer.class);
         System.out.println(result);
 
-        return "flop";
+        return HttpStatus.OK;
     }
 
     @GetMapping("/moder")
-    public String rebase() {
+    public HttpStatus rebase() {
         tableComponent.prepareBase();
-        return "ok";
+        return HttpStatus.OK;
     }
 
     @GetMapping("/trunc")
-    public String debase() {
+    public HttpStatus debase() {
         tableComponent.deleteBase();
-        return "ok";
+        return HttpStatus.OK;
     }
 
 

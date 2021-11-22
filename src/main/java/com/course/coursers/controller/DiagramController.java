@@ -6,6 +6,8 @@ import com.course.coursers.components.TableComponent;
 import com.course.coursers.models.Block;
 import com.course.coursers.models.Diagram;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,24 +28,24 @@ public class DiagramController {
 
 
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable int id){
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable int id){
         String res = diagramComponent.deleteDiagramById(id);
         System.out.println(res);
-        return res;
+        return new ResponseEntity(res, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
-    public String update(@PathVariable int id, @RequestBody Diagram body){
+    public ResponseEntity<String> update(@PathVariable int id, @RequestBody Diagram body){
         String res = diagramComponent.updateDiagramById(id, body.getName(),  body.getDescription());
         System.out.println(res);
-        return res;
+        return new ResponseEntity(res, HttpStatus.OK);
     }
 
     @PostMapping("/insert")
-    public String insert(@RequestBody Diagram body){
+    public HttpStatus insert(@RequestBody Diagram body){
         body.insertSelf();
-        return "200";
+        return HttpStatus.OK;
     }
 
 
