@@ -32,6 +32,11 @@ public class UtilController {
 
 
 
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping(){
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
     @GetMapping("/json")
     public ResponseEntity<String> returnJson(@RequestParam int diagram){
