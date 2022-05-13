@@ -82,14 +82,14 @@ public class UtilController {
         Block d2 = new Block(8,2, Arrays.asList(0),2,"flop4", dataSource);
         d2.insertSelf();
         Diagram diag3 = new Diagram(3,"flop","flopper",dataSource);
-        diag.insertSelf();
+        diag3.insertSelf();
         Block a3 = new Block(9,1, Arrays.asList(10,11),3,"flop1", dataSource);
         a3.insertSelf();
         Block b3 = new Block(10,1, Arrays.asList(12),3,"flop2", dataSource);
         b3.insertSelf();
         Block c3 = new Block(11,1, Arrays.asList(12),3,"flop3", dataSource);
         c3.insertSelf();
-        Block d3 = new Block(12,2, Arrays.asList(0),4,"flop4", dataSource);
+        Block d3 = new Block(12,2, Arrays.asList(0),3,"flop4", dataSource);
         d3.insertSelf();
         int result = jdbcTemplate.queryForObject(
                 "SELECT COUNT(*) FROM blocks", Integer.class);

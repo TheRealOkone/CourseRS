@@ -44,6 +44,7 @@ public class TableComponent {
                         "    type integer,\n" +
                         "    childs integer[],\n" +
                         "    diagram integer,\n" +
+                        "    description text,\n" +
                         "    CONSTRAINT blocks_diagram_fkey FOREIGN KEY (diagram)\n" +
                         "        REFERENCES public.diagrams (id) MATCH SIMPLE\n" +
                         "        ON UPDATE NO ACTION\n" +
