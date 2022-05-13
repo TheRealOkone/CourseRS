@@ -53,7 +53,7 @@ public class TableComponent {
                         "TABLESPACE pg_default;\n" +
                         "\n" +
                         "ALTER TABLE public.blocks\n" +
-                        "    OWNER to postgres;";
+                        "    OWNER to qzdhjgztbhxcft;";
 
 
         String sqltab2 =
@@ -68,7 +68,7 @@ public class TableComponent {
                         "TABLESPACE pg_default;\n" +
                         "\n" +
                         "ALTER TABLE public.diagrams\n" +
-                        "    OWNER to postgres;";
+                        "    OWNER to qzdhjgztbhxcft;";
 
         jdbcTemplate.execute(sqltab2);
         jdbcTemplate.execute(sqltab1);
